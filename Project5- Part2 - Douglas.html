@@ -1,0 +1,121 @@
+<html>
+<title>Data 608 - Project 5 - Part 2</title>
+<head>
+	<style>
+		table {
+  			border-collapse: collapse;
+		}
+		
+		table, td, th
+		{
+			border: 1px solid black;
+			margin-left: 10%;
+		}
+		
+		#info
+		{
+			width: 70%;
+			float: right;
+		}
+		
+		#listing
+		{
+			width: 50%;
+			clear: left;
+		}
+
+	</style>
+	
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	
+	<script type="text/javascript">
+		
+		// Function to load the data into an HTML table
+		function loadData(){
+			
+		d3.csv("presidents.csv",function(error, data) {
+		  			if (error) throw error;
+		  			// Create table structure
+		  			var table = d3.select('#listing')
+		  					.append('table')
+		  					.attr("id","presidents");
+		  			
+		  			// Get field names for headers
+		  			var titles = d3.keys(data[0]);
+		  			// Write the table headers
+		  			var headers = table.append('thead')
+		  					.append('tr')
+		                   	.selectAll('th')
+		                   	.data(titles)
+		                   	.enter()
+		                   	.append('th')
+		                   	.text(function (d) {
+			                    return d;
+		                    });
+		            
+		            // Write out the rows        
+		      		var rows = table.append('tbody').selectAll('tr')
+		               		.data(data).enter()
+		               		.append('tr')
+		               		.attr("id", function(d) { return d.Name});
+		               		
+		            // Fill in each row with data 		
+		         	rows.selectAll('td')
+		    				.data(function (d) {
+		    								return titles.map(function (k) {
+		    											return { 'value': d[k], 'name': k};
+		    											});
+		    								}).enter()
+		    				.append('td')
+		    				.text(function (d) {
+		    											return d.value;
+		    									});
+		      })
+			
+		}
+		
+		function searchItem(){
+				clearTable();
+    			var lookFor = document.getElementById("whichPrez").value;
+    			var thePrez = d3.selectAll("#"+lookFor)
+                    .attr("style", "background-color: #fa7a70;");
+                var elements = thePrez.selectAll('td').nodes();
+                var height = elements[1].innerText;
+                var weight = elements[2].innerText;
+                alert("President " + lookFor + " was " + height + " inches tall and weighed " + weight + "lbs.");
+		}
+		
+		function clearTable(){
+				var clearRows = d3.selectAll('tr').attr("style",null);
+		}
+		
+	</script>
+</head>
+<body onload="loadData()">
+<div id="masthead">
+	<h2>Project #5 - Part 2</h2>
+	<h3> DATA 608 - Fall 2019</h3>
+	<h4>Adam Douglas</h4>
+	<hr></hr>
+</div>
+
+<div id="info">
+<p>This part loads the file "presidents.csv" and displays the data in an HTML table, using the d3.js API.</p>
+<br />
+<p>You can also use this text box to look up a specific value for a president:</p>
+<br />
+<form>
+	<input type="text", id="whichPrez"></input>
+	<button type="button", id="search", onclick="searchItem()">Search</button>
+	<button type="button", id="reset", onclick="clearTable()">Reset</button>
+</form>
+	<div id="selection">
+	</div>
+</div>
+
+<div id="listing">
+</div>
+
+</body>
+
+</html>

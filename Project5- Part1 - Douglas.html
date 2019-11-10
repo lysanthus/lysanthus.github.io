@@ -1,0 +1,89 @@
+<html>
+<title>Data 608 - Project 5¥</title>
+<head>
+<script type="text/javascript">
+	function reverseText() {
+ 	 // Get the value of the text box
+  		var inputString = document.getElementById("myString").value;
+  		// If the value is empty or NULL, use "-" as a placeholder
+  		if (inputString == null || inputString == ""){
+  			inputString = "-"
+ 		}
+  		// Reverse the string by splitting it into an array, reversing the array, and recompiling the string
+  		var outputString = inputString.split("").reverse().join("");
+  		// Output the reversed srting
+  		document.getElementById("outputreverse").innerHTML = "<p>"+ outputString +"</p>";
+  }
+  
+ 	function multiples(x) {
+ 		if(isNaN(x) || x == ""){
+ 			document.getElementById("outputmult").innerHTML = "";
+ 			return null;
+ 		}
+ 		var multiples = [x]
+ 		// Get the multiples
+ 		for (let i = 2; i < 21; i++) {
+  			multiples.push(x * i)
+		}
+		// Output the multiples
+		var tbl = "";
+		
+		tbl = "<table id='multiples'><tbody><tr><th colspan='4'>Multiples of "+ x +"</th></tr><tr>";
+		
+		for (let i = 0; i < multiples.length; i++) {
+			// Add rows where needed
+			if(i % 4 == 0 && i != 0){
+				tbl += "</tr><tr>";
+			}
+			tbl += "<td>"+ multiples[i] +"</td>";
+		}
+		tbl += "</tbody></table>"
+		document.getElementById("outputmult").innerHTML = tbl;
+ 	}
+</script>
+</head>
+<body>
+<div id="masthead">
+	<h2>Project #5 - Part 1</h2>
+	<h3> DATA 608 - Fall 2019</h3>
+	<h4>Adam Douglas</h4>
+	<hr></hr>
+</div>
+
+<div id = "maincontent">
+	<div id="part1-1", style="">
+		<p><span style="font-weight: bold;">Part 1-1</span></p><p>This part will use Javascript to reverse a string you enter. As you enter a string into the text box, The reversed version will appear below.</p>
+		<hr></hr>
+	</div>
+	
+	<div id="inputreverse">
+			<form>
+				<p> Enter a string here: </p>
+				<input type="text", id="myString", oninput="reverseText()"></input>
+			</form>
+	</div>
+	
+	<p>Your string reversed is: </p>
+	
+	<div id="outputreverse">
+			<p> - </p>
+		</div>
+		<br /><br />
+		<hr></hr>
+		
+		<div id="part1-2">
+				<p><span style="font-weight: bold;">Part 1-2</span></p><p>This part uses Javascript to take an input number and print a table with the first 20 multiples of the number, in order, into a 5x4 table.</p>
+				<hr></hr>
+		</div>
+		
+		<div id="inputmult">
+			<form>
+				<p> Enter a number here: </p>
+				<input type="text", id="myNumber", oninput="multiples(this.value)"></input>
+			</form>
+		</div>
+		<div id="outputmult">
+		</div>
+</div>
+</body>
+</html>
